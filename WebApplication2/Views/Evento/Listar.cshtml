@@ -7,7 +7,7 @@
 <h2>Listar</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Cadastrar novo evento", "Create")
 </p>
 <table class="table">
     <tr>
@@ -29,9 +29,9 @@
             @Html.DisplayFor(modelItem => item.Data)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Exibir Detalhes", "Exibir", new { id=Model.ToList<WebApplication2.Models.Evento>().IndexOf(item) }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("✏", "Edit", new { id = Model.ToList<WebApplication2.Models.Evento>().IndexOf(item) }) |
+            @Html.ActionLink("👁", "Exibir", new { id=Model.ToList<WebApplication2.Models.Evento>().IndexOf(item) }) |
+            @Html.ActionLink("🗑", "Delete", new { id = Model.ToList<WebApplication2.Models.Evento>().IndexOf(item) })
         </td>
     </tr>
 }

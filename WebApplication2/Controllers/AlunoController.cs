@@ -30,6 +30,8 @@ namespace WebApplication2.Controllers
         {
             return View((Session["ListaAluno"] as List<Aluno>).ElementAt(id));
         }
+
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             return View(Aluno.Procurar(Session, id));
@@ -45,6 +47,7 @@ namespace WebApplication2.Controllers
                 return RedirectToAction("Listar");
             }
         }
+
 
         public ActionResult Create()
         {

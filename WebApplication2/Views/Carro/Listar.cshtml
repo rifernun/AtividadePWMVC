@@ -7,7 +7,7 @@
 <h2>Listar</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Cadastrar novo Carro", "Create")
 </p>
 <table class="table">
     <tr>
@@ -35,9 +35,9 @@
             @Html.DisplayFor(modelItem => item.Cor)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Exibir Detalhes", "Exibir", new { id = Model.ToList<WebApplication2.Models.Carro>().IndexOf(item)}) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("✏", "Edit", new { id = Model.ToList<WebApplication2.Models.Carro>().IndexOf(item) }) |
+            @Html.ActionLink("👁", "Exibir", new { id = Model.ToList<WebApplication2.Models.Carro>().IndexOf(item)}) |
+            @Html.ActionLink("🗑", "Delete", new { id = Model.ToList<WebApplication2.Models.Carro>().IndexOf(item) })
         </td>
     </tr>
 }

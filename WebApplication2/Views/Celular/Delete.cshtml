@@ -1,11 +1,12 @@
 ﻿@model WebApplication2.Models.Celular
 
 @{
-    ViewBag.Title = "Exibir";
+    ViewBag.Title = "Excluir";
 }
 
-<h2>Exibir</h2>
+<h2>Excluir</h2>
 
+<h3>Você tem certeza que deseja excluir?</h3>
 <div>
     <h4>Celular</h4>
     <hr />
@@ -35,7 +36,14 @@
         </dd>
 
     </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Excluir" class="btn btn-primary" /> |
+            @Html.ActionLink("Voltar para a lista", "Listar")
+        </div>
+    }
 </div>
-<p>
-    @Html.ActionLink("Voltar para a lista", "Listar")
-</p>
