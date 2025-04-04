@@ -190,7 +190,6 @@
     <Content Include="Views\Evento\Exibir.cshtml" />
     <Content Include="Views\Aluno\Delete.cshtml" />
     <Content Include="Views\Aluno\Create.cshtml" />
-    <Content Include="Views\Aluno\Edit.cshtml" />
     <Content Include="Views\Carro\Delete.cshtml" />
     <Content Include="Views\Carro\Create.cshtml" />
     <Content Include="Views\Carro\Edit.cshtml" />
@@ -200,6 +199,7 @@
     <Content Include="Views\Evento\Edit.cshtml" />
     <Content Include="Views\Evento\Create.cshtml" />
     <Content Include="Views\Evento\Delete.cshtml" />
+    <Content Include="Views\Aluno\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

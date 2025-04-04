@@ -17,6 +17,9 @@
         <th>
             @Html.DisplayNameFor(model => model.RA)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataNsc)
+        </th>
         <th></th>
     </tr>
 
@@ -27,6 +30,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.RA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataNsc)
         </td>
         <td>
             @Html.ActionLink("✏", "Edit", new { id = Model.ToList<WebApplication1.Models.Aluno>().IndexOf(item) }) |
