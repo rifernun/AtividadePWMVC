@@ -86,28 +86,23 @@ namespace WebApplication2.Controllers
                 PdfWriter writer = PdfWriter.GetInstance(doc, ms);
                 doc.Open();
 
-                // Título
                 var titulo = new Paragraph("Relatório de Carros", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD));
                 titulo.Alignment = Element.ALIGN_CENTER;
                 doc.Add(titulo);
                 doc.Add(new Paragraph("\n"));
 
-                // Tabela com 4 colunas
                 PdfPTable tabela = new PdfPTable(4);
                 tabela.WidthPercentage = 100;
 
-                // Larguras proporcionais das colunas
                 float[] larguras = new float[] { 2f, 1f, 1.5f, 2f };
                 tabela.SetWidths(larguras);
 
-                // Cabeçalhos com destaque
                 var fontCabecalho = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
                 tabela.AddCell(new PdfPCell(new Phrase("Placa", fontCabecalho)));
                 tabela.AddCell(new PdfPCell(new Phrase("Ano", fontCabecalho)));
                 tabela.AddCell(new PdfPCell(new Phrase("Cor", fontCabecalho)));
                 tabela.AddCell(new PdfPCell(new Phrase("Data de Fabricação", fontCabecalho)));
 
-                // Conteúdo
                 var fontNormal = new Font(Font.FontFamily.HELVETICA, 11, Font.NORMAL);
 
                 foreach (var carro in lista)

@@ -20,6 +20,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Novo)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataFabricacao)
+        </th>
         <th></th>
     </tr>
 
@@ -35,11 +38,17 @@
             @Html.DisplayFor(modelItem => item.Novo)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.DataFabricacao)
+        </td>
+        <td>
             @Html.ActionLink("✏", "Edit", new { id = Model.ToList<WebApplication2.Models.Celular>().IndexOf(item) }) |
-            @Html.ActionLink("👁", "Exibir", new { id = Model.ToList < WebApplication2.Models.Celular>().IndexOf(item) }) |
+            @Html.ActionLink("👁", "Exibir", new { id = Model.ToList<WebApplication2.Models.Celular>().IndexOf(item) }) |
             @Html.ActionLink("🗑", "Delete", new { id = Model.ToList<WebApplication2.Models.Celular>().IndexOf(item) })
         </td>
     </tr>
 }
 
 </table>
+<a href="@Url.Action("GerarPdf", "Celular")" class="btn btn-dark" target="_blank">
+    📄 Baixar PDF
+</a>
