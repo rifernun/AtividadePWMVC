@@ -7,8 +7,9 @@
 <h2>Listar</h2>
 
 <p>
-    @Html.ActionLink("Cadastrar novo Aluno", "Create")
+    @Html.ActionLink("Cadastrar novo Aluno", "Create") 
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -42,3 +43,6 @@
     </tr>
 }
 </table>
+<a href="@Url.Action("GerarPdf", "Aluno")" class="btn btn-dark" target="_blank">
+    📄 Baixar PDF
+</a>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -12,7 +13,9 @@ namespace WebApplication2.Models
         public string Placa { get; set; }
         public int Ano { get; set; }
         public string Cor { get; set; }
-
+        [DataType(DataType.Date)]
+        public DateTime DataFabricacao { get; set; }
+        
         public static void GerarLista(HttpSessionStateBase session)
         {
             if (session["ListaCarro"] != null)
@@ -23,9 +26,9 @@ namespace WebApplication2.Models
                 }
             }
             var lista = new List<Carro>();
-            lista.Add(new Carro { Placa = "ABCDE", Ano = 2020, Cor = "Cinza" });
-            lista.Add(new Carro { Placa = "ABCDG", Ano = 2025, Cor = "Vermelho" });
-            lista.Add(new Carro { Placa = "ABCDN", Ano = 2007, Cor = "Preto" });
+            lista.Add(new Carro { Placa = "ABCDE", Ano = 2020, Cor = "Cinza", DataFabricacao = new DateTime(2020, 03, 12) });
+            lista.Add(new Carro { Placa = "ABCDG", Ano = 2025, Cor = "Vermelho", DataFabricacao = new DateTime(2025, 03, 12) });
+            lista.Add(new Carro { Placa = "ABCDN", Ano = 2007, Cor = "Preto", DataFabricacao = new DateTime(2007, 03, 12) });
 
             session.Remove("ListaCarro");
             session.Add("ListaCarro", lista);
@@ -61,6 +64,7 @@ namespace WebApplication2.Models
                 carro.Placa = this.Placa;
                 carro.Ano = this.Ano;
                 carro.Cor = this.Cor;
+                carro.DataFabricacao = this.DataFabricacao;
             }
         }
     }
