@@ -11,23 +11,17 @@
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
         <div class="container">
-            @Html.ActionLink("Nome do aplicativo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("PW3 - Trabalho", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar a navegação" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Alunos", "Index", "Aluno", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Lista de Alunos", "Listar", "Aluno", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Carros", "Index", "Carro", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Lista de carros", "Listar", "Carro", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Celulares", "Index", "Celular", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Lista de Celulares", "Listar", "Celular", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Eventos", "Index", "Evento", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Lista de Eventos", "Listar", "Evento", new { area = "" }, new { @class = "nav-link" })</li>
-
-
+                    <li>@Html.ActionLink("👨‍🎓 Alunos", "Listar", "Aluno", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("🚗 Carros", "Listar", "Carro", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("📱 Celulares", "Listar", "Celular", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("🎉 Eventos", "Listar", "Evento", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
             </div>
         </div>
