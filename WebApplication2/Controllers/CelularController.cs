@@ -1,75 +1,79 @@
-﻿using iTextSharp.text.pdf;
-using iTextSharp.text;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication2.Models;
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using OfficeOpenXml;
 
 namespace WebApplication2.Controllers
 {
     public class CelularController : Controller
     {
         // GET: Celular
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public ActionResult Index() => RedirectToAction("Listar");
+
+        // Listar todos os Celulares
         public ActionResult Listar()
         {
             Celular.GerarLista(Session);
-
             return View(Session["ListaCelular"] as List<Celular>);
         }
-        public ActionResult Exibir(int id)
-        {
-            return View((Session["ListaCelular"] as List<Celular>).ElementAt(id));
-        }
 
-        public ActionResult Delete(int id)
-        {
-            return View((Session["ListaCelular"] as List<Celular>).ElementAt(id));
-        }
+        // Criar um novo Celular
+        public ActionResult Create() => View(new Celular());
 
-        [HttpGet]
-        public ActionResult Edit(int id)
-        {
-            return View(Celular.Procurar(Session, id));
-        }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, Celular Celular)
+        public ActionResult Create(Celular celular)
         {
+            if (ModelState.IsValid)
             {
-                Celular.Procurar(Session, id)?.Excluir(Session);
-                Celular.Excluir(Session);
-
+                celular.Adicionar(Session);
                 return RedirectToAction("Listar");
             }
+            return View(celular);
         }
 
-
-        public ActionResult Create()
+        // Editar um Celular
+        public ActionResult Edit(int id)
         {
-            return View(new Celular());
+            var celular = Celular.Procurar(Session, id);
+            if (celular == null)
+                return HttpNotFound();
+
+            return View(celular);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Celular Celular)
+        public ActionResult Edit(int id, Celular celular)
         {
-            Celular.Adicionar(Session);
-
-            return RedirectToAction("Listar");
+            if (ModelState.IsValid)
+            {
+                celular.Editar(Session, id);
+                return RedirectToAction("Listar");
+            }
+            return View(celular);
         }
-        public ActionResult Edit(int id, Celular Celular)
+
+        // Exclusão com Ajax
+        [HttpPost]
+        public ActionResult DeleteAjax(int id)
         {
-            Celular.Editar(Session, id);
-
-            return RedirectToAction("Listar");
+            var celular = Celular.Procurar(Session, id);
+            if (celular != null)
+            {
+                celular.Excluir(Session);
+                return Json(new { sucesso = true });
+            }
+            return new HttpStatusCodeResult(404, "Celular não encontrado");
         }
+
+        // Geração de PDF
         public ActionResult GerarPdf()
         {
             var lista = Session["ListaCelular"] as List<Celular>;
@@ -82,20 +86,18 @@ namespace WebApplication2.Controllers
             using (MemoryStream ms = new MemoryStream())
             {
                 Document doc = new Document(PageSize.A4, 10f, 10f, 20f, 20f);
-                PdfWriter writer = PdfWriter.GetInstance(doc, ms);
+                PdfWriter.GetInstance(doc, ms);
                 doc.Open();
 
-                var titulo = new Paragraph("Relatório de Celulares", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD));
-                titulo.Alignment = Element.ALIGN_CENTER;
+                var titulo = new Paragraph("Relatório de Celulares", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD))
+                {
+                    Alignment = Element.ALIGN_CENTER
+                };
                 doc.Add(titulo);
                 doc.Add(new Paragraph("\n"));
 
-                PdfPTable tabela = new PdfPTable(4);
-                tabela.WidthPercentage = 100;
-
-                // Largura proporcional entre colunas
-                float[] larguras = new float[] { 1.5f, 2.5f, 1.2f, 2f };
-                tabela.SetWidths(larguras);
+                PdfPTable tabela = new PdfPTable(4) { WidthPercentage = 100 };
+                tabela.SetWidths(new float[] { 2f, 2f, 1f, 2f });
 
                 var fontCabecalho = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
                 tabela.AddCell(new PdfPCell(new Phrase("Número", fontCabecalho)));
@@ -121,5 +123,40 @@ namespace WebApplication2.Controllers
             }
         }
 
+        // Exportar para Excel
+        public ActionResult DownloadExcel()
+        {
+            ExcelPackage.License.SetNonCommercialPersonal("<Richard>");
+
+            var lista = Session["ListaCelular"] as List<Celular>;
+            if (lista == null || !lista.Any())
+                return RedirectToAction("Listar");
+
+            using (var pacote = new ExcelPackage())
+            {
+                var planilha = pacote.Workbook.Worksheets.Add("Celulares");
+                planilha.Cells[1, 1].Value = "Número";
+                planilha.Cells[1, 2].Value = "Marca";
+                planilha.Cells[1, 3].Value = "Novo";
+                planilha.Cells[1, 4].Value = "Data de Fabricação";
+
+                planilha.Row(1).Style.Font.Bold = true;
+                planilha.Row(1).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                planilha.Row(1).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
+
+                for (int i = 0; i < lista.Count; i++)
+                {
+                    var celular = lista[i];
+                    planilha.Cells[i + 2, 1].Value = celular.Numero;
+                    planilha.Cells[i + 2, 2].Value = celular.Marca;
+                    planilha.Cells[i + 2, 3].Value = celular.Novo ? "Sim" : "Não";
+                    planilha.Cells[i + 2, 4].Value = celular.DataFabricacao.ToShortDateString();
+                }
+
+                planilha.Cells.AutoFitColumns();
+
+                return File(pacote.GetAsByteArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Celulares.xlsx");
+            }
+        }
     }
 }
