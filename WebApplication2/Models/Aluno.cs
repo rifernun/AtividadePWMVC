@@ -33,7 +33,18 @@ namespace WebApplication1.Models
             {
                 new Aluno { Id = 0, Nome = "Richard", Email = "richard@email.com", Datansc = new DateTime(2000, 01, 01) },
                 new Aluno { Id = 1, Nome = "Matheus", Email = "matheus@email.com", Datansc = new DateTime(1999, 05, 10) },
-                new Aluno { Id = 2, Nome = "Xandão", Email = "xandao@email.com", Datansc = new DateTime(1998, 07, 20) }
+                new Aluno { Id = 2, Nome = "Xandão", Email = "xandao@email.com", Datansc = new DateTime(1998, 07, 20) },
+                new Aluno { Id = 3, Nome = "Larissa", Email = "larissa@email.com", Datansc = new DateTime(2001, 03, 15) },
+                new Aluno { Id = 4, Nome = "Carlos", Email = "carlos@email.com", Datansc = new DateTime(2002, 08, 22) },
+                new Aluno { Id = 5, Nome = "Juliana", Email = "juliana@email.com", Datansc = new DateTime(2000, 11, 30) },
+                new Aluno { Id = 6, Nome = "Felipe", Email = "felipe@email.com", Datansc = new DateTime(1997, 02, 18) },
+                new Aluno { Id = 7, Nome = "Bruna", Email = "bruna@email.com", Datansc = new DateTime(1999, 12, 09) },
+                new Aluno { Id = 8, Nome = "Thiago", Email = "thiago@email.com", Datansc = new DateTime(2003, 04, 25) },
+                new Aluno { Id = 9, Nome = "Amanda", Email = "amanda@email.com", Datansc = new DateTime(2001, 06, 12) },
+                new Aluno { Id = 10, Nome = "Gabriel", Email = "gabriel@email.com", Datansc = new DateTime(2000, 09, 27) },
+                new Aluno { Id = 11, Nome = "Isabela", Email = "isabela@email.com", Datansc = new DateTime(1998, 10, 05) },
+                new Aluno { Id = 12, Nome = "Rafael", Email = "rafael@email.com", Datansc = new DateTime(2002, 07, 19) }
+
             };
 
             session["ListaAluno"] = lista;

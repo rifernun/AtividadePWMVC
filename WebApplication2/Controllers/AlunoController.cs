@@ -57,7 +57,6 @@ namespace WebApplication1.Controllers
 
         }
 
-
         public ActionResult Edit(int id)
 
         {
@@ -68,50 +67,29 @@ namespace WebApplication1.Controllers
 
 
         [HttpPost]
-
         [ValidateAntiForgeryToken]
-
         public ActionResult Edit(int id, Aluno aluno)
-
         {
-
             if (ModelState.IsValid)
-
             {
-
                 aluno.Editar(Session, id);
-
                 return RedirectToAction("Listar");
-
             }
-
             return View(aluno);
-
         }
-
 
         [HttpPost]
 
         public ActionResult DeleteAjax(int id)
-
         {
-
             var aluno = Aluno.Procurar(Session, id);
-
             if (aluno != null)
-
             {
-
                 aluno.Excluir(Session);
-
                 return Json(new { sucesso = true });
-
             }
-
             return new HttpStatusCodeResult(404, "Aluno não encontrado");
-
         }
-
 
         public ActionResult GerarPdf()
         {

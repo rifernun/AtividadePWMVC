@@ -1,54 +1,79 @@
 ﻿@model IEnumerable<WebApplication2.Models.Carro>
 
 @{
-    ViewBag.Title = "Listar";
+    ViewBag.Title = "Listar Carros";
 }
 
-<h2>Listar</h2>
+<h2>Listar Carros</h2>
 
 <p>
-    @Html.ActionLink("Cadastrar novo Carro", "Create")
+    @Html.ActionLink("Novo Carro", "Create", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Baixar PDF", "GerarPdf", null, new { @class = "btn btn-danger" })
+    @Html.ActionLink("Baixar Excel", "DownloadExcel", null, new { @class = "btn btn-success" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Placa)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ano)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataFabricacao)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Placa)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ano)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DataFabricacao)
-        </td>
-        <td>
-            @Html.ActionLink("✏", "Edit", new { id = Model.ToList<WebApplication2.Models.Carro>().IndexOf(item) }) |
-            @Html.ActionLink("👁", "Exibir", new { id = Model.ToList<WebApplication2.Models.Carro>().IndexOf(item) }) |
-            @Html.ActionLink("🗑", "Delete", new { id = Model.ToList<WebApplication2.Models.Carro>().IndexOf(item) })
-        </td>
-    </tr>
-}
-
+<table id="tabelaCarros" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Placa</th>
+            <th>Ano</th>
+            <th>Cor</th>
+            <th>Data de Fabricação</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var carro in Model)
+        {
+            <tr>
+                <td>@carro.Placa</td>
+                <td>@carro.Ano</td>
+                <td>@carro.Cor</td>
+                <td>@carro.DataFabricacao.ToShortDateString()</td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = carro.Id }, new { @class = "btn btn-warning btn-sm" })
+                    <button class="btn btn-danger btn-sm" onclick="excluirCarro(@carro.Id)">Excluir</button>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
-<a href="@Url.Action("GerarPdf", "Carro")" class="btn btn-dark" target="_blank">
-    📄 Baixar PDF
-</a>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
+
+    <script>
+        $(document).ready(function () {
+            $('#tabelaCarros').DataTable({
+                language: {
+                    search: "Procurar:",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Nenhum registro encontrado",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Nenhum registro disponível",
+                    infoFiltered: "(filtrado de _MAX_ registros no total)",
+                    paginate: {
+                        first: "Primeiro",
+                        last: "Último",
+                        next: "Próximo",
+                        previous: "Anterior"
+                    }
+                }
+            });
+        });
+
+        function excluirCarro(id) {
+            if (confirm('Deseja realmente excluir este carro?')) {
+                $.post('@Url.Action("DeleteAjax")', { id: id }, function (data) {
+                    if (data.sucesso) {
+                        location.reload();
+                    } else {
+                        alert("Erro ao excluir carro.");
+                    }
+                });
+            }
+        }
+    </script>
+}
