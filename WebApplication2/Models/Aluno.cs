@@ -1,73 +1,80 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.UI.WebControls.WebParts;
 
 namespace WebApplication1.Models
 {
     public class Aluno
     {
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "O nome é obrigatório.")]
         public string Nome { get; set; }
-        public string RA { get; set; }
+
+        [Required(ErrorMessage = "O e-mail é obrigatório.")]
+        [EmailAddress(ErrorMessage = "E-mail inválido.")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "A data de nascimento é obrigatória.")]
         [DataType(DataType.Date)]
-        public DateTime DataNsc { get; set; }
+        [Display(Name = "Data de Nascimento")]
+        public DateTime Datansc { get; set; }
 
         public static void GerarLista(HttpSessionStateBase session)
         {
-            if (session["ListaAluno"] != null) 
+            if (session["ListaAluno"] != null && ((List<Aluno>)session["ListaAluno"]).Count > 0)
             {
-                if (((List<Aluno>)session["ListaAluno"]).Count > 0)
-                {
-                    return;
-                }
+                return;
             }
-            var lista = new List<Aluno>();
-            lista.Add(new Aluno { Nome = "Richard", RA = "19", DataNsc= new DateTime(2025,03,03) });
-            lista.Add(new Aluno { Nome = "Matheus", RA = "16", DataNsc = new DateTime(2025, 03, 03) });
-            lista.Add(new Aluno { Nome = "Xandão", RA = "333", DataNsc = new DateTime(2025, 03, 03) });
 
-            session.Remove("ListaAluno");
-            session.Add("ListaAluno", lista);
+            var lista = new List<Aluno>
+            {
+                new Aluno { Id = 0, Nome = "Richard", Email = "richard@email.com", Datansc = new DateTime(2000, 01, 01) },
+                new Aluno { Id = 1, Nome = "Matheus", Email = "matheus@email.com", Datansc = new DateTime(1999, 05, 10) },
+                new Aluno { Id = 2, Nome = "Xandão", Email = "xandao@email.com", Datansc = new DateTime(1998, 07, 20) }
+            };
+
+            session["ListaAluno"] = lista;
         }
-        
+
         public void Adicionar(HttpSessionStateBase session)
         {
-            if (session["ListaAluno"] != null)
+            var lista = session["ListaAluno"] as List<Aluno>;
+            if (lista == null)
             {
-                (session["ListaAluno"] as List<Aluno>).Add(this);
+                lista = new List<Aluno>();
+                session["ListaAluno"] = lista;
             }
+
+            this.Id = lista.Count > 0 ? lista.Max(a => a.Id) + 1 : 0;
+            lista.Add(this);
         }
+
         public static Aluno Procurar(HttpSessionStateBase session, int id)
         {
-            if (session["ListaAluno"] != null)
-            {
-                return (session["ListaAluno"] as List<Aluno>).ElementAt(id);
-            }
-            return null;
+            var lista = session["ListaAluno"] as List<Aluno>;
+            return lista?.FirstOrDefault(a => a.Id == id);
         }
-        public void Excluir(HttpSessionStateBase session)
-        {
-            if (session["ListaAluno"] != null)
-            {
-                (session["ListaAluno"] as List<Aluno>).Remove(this);
-            }
-        }
+
         public void Editar(HttpSessionStateBase session, int id)
         {
-            if (session["ListaAluno"] != null)
+            var lista = session["ListaAluno"] as List<Aluno>;
+            var original = lista?.FirstOrDefault(a => a.Id == id);
+
+            if (original != null)
             {
-                var aluno = Aluno.Procurar(session,id);
-                aluno.Nome = this.Nome;
-                aluno.RA = this.RA;
-                aluno.DataNsc = this.DataNsc;
+                original.Nome = this.Nome;
+                original.Email = this.Email;
+                original.Datansc = this.Datansc;
             }
         }
-        
+
+        public void Excluir(HttpSessionStateBase session)
+        {
+            var lista = session["ListaAluno"] as List<Aluno>;
+            lista?.RemoveAll(a => a.Id == this.Id);
+        }
     }
 }

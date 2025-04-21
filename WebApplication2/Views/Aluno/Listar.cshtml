@@ -16,10 +16,10 @@
             @Html.DisplayNameFor(model => model.Nome)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RA)
+            @Html.DisplayNameFor(model => model.Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DataNsc)
+            @Html.DisplayNameFor(model => model.Datansc)
         </th>
         <th></th>
     </tr>
@@ -30,10 +30,10 @@
             @Html.DisplayFor(modelItem => item.Nome)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RA)
+            @Html.DisplayFor(modelItem => item.Email)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DataNsc)
+            @Html.DisplayFor(modelItem => item.Datansc)
         </td>
         <td>
             @Html.ActionLink("✏", "Edit", new { id = Model.ToList<WebApplication1.Models.Aluno>().IndexOf(item) }) |
@@ -45,4 +45,7 @@
 </table>
 <a href="@Url.Action("GerarPdf", "Aluno")" class="btn btn-dark" target="_blank">
     📄 Baixar PDF
+</a>
+<a href="@Url.Action("DownloadExcel", "Aluno")" class="btn btn-dark" target="_blank">
+    📄 Baixar Excel
 </a>
