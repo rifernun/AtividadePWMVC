@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using OfficeOpenXml;
 
 namespace WebApplication2
 {
@@ -12,6 +13,7 @@ namespace WebApplication2
     {
         protected void Application_Start()
         {
+            ExcelPackage.License.SetNonCommercialPersonal("<Richard>");
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

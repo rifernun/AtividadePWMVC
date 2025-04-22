@@ -126,7 +126,7 @@ namespace WebApplication2.Controllers
         // Exportar para Excel
         public ActionResult DownloadExcel()
         {
-            ExcelPackage.License.SetNonCommercialPersonal("<Richard>");
+            
 
             var lista = Session["ListaCelular"] as List<Celular>;
             if (lista == null || !lista.Any())

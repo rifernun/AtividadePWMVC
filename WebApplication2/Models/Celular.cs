@@ -35,7 +35,18 @@ namespace WebApplication2.Models
             {
                 new Celular { Id = 0, Numero = 20, Marca = "Xiaomi", Novo = true, DataFabricacao = new DateTime(2025, 02, 12) },
                 new Celular { Id = 1, Numero = 47, Marca = "Motorola", Novo = false, DataFabricacao = new DateTime(2020, 02, 01) },
-                new Celular { Id = 2, Numero = 1, Marca = "Iphone", Novo = false, DataFabricacao = new DateTime(2022, 02, 20) }
+                new Celular { Id = 2, Numero = 1, Marca = "Iphone", Novo = false, DataFabricacao = new DateTime(2022, 02, 20) },
+                new Celular { Id = 3, Numero = 35, Marca = "Samsung", Novo = true, DataFabricacao = new DateTime(2025, 01, 15) },
+                new Celular { Id = 4, Numero = 99, Marca = "Huawei", Novo = false, DataFabricacao = new DateTime(2021, 07, 23) },
+                new Celular { Id = 5, Numero = 12, Marca = "Xiaomi", Novo = true, DataFabricacao = new DateTime(2025, 03, 10) },
+                new Celular { Id = 6, Numero = 58, Marca = "Nokia", Novo = false, DataFabricacao = new DateTime(2019, 10, 05) },
+                new Celular { Id = 7, Numero = 83, Marca = "Motorola", Novo = true, DataFabricacao = new DateTime(2024, 12, 01) },
+                new Celular { Id = 8, Numero = 27, Marca = "Iphone", Novo = false, DataFabricacao = new DateTime(2023, 05, 14) },
+                new Celular { Id = 9, Numero = 44, Marca = "LG", Novo = false, DataFabricacao = new DateTime(2018, 09, 30) },
+                new Celular { Id = 10, Numero = 76, Marca = "Samsung", Novo = true, DataFabricacao = new DateTime(2025, 04, 01) },
+                new Celular { Id = 11, Numero = 3, Marca = "Asus", Novo = false, DataFabricacao = new DateTime(2020, 06, 18) },
+                new Celular { Id = 12, Numero = 64, Marca = "Realme", Novo = true, DataFabricacao = new DateTime(2025, 02, 28) }
+
             };
 
             session["ListaCelular"] = lista;

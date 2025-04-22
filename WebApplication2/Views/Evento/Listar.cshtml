@@ -1,42 +1,74 @@
 ﻿@model IEnumerable<WebApplication2.Models.Evento>
 
 @{
-    ViewBag.Title = "Listar";
+    ViewBag.Title = "Listar Eventos";
 }
 
-<h2>Listar</h2>
+<h2>Listar Celulares</h2>
 
 <p>
-    @Html.ActionLink("Cadastrar novo evento", "Create")
+    @Html.ActionLink("Novo Evento", "Create", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Baixar PDF", "GerarPdf", null, new { @class = "btn btn-danger" })
+    @Html.ActionLink("Baixar Excel", "DownloadExcel", null, new { @class = "btn btn-success" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Local)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Data)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Local)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data)
-        </td>
-        <td>
-            @Html.ActionLink("✏", "Edit", new { id = Model.ToList<WebApplication2.Models.Evento>().IndexOf(item) }) |
-            @Html.ActionLink("👁", "Exibir", new { id=Model.ToList<WebApplication2.Models.Evento>().IndexOf(item) }) |
-            @Html.ActionLink("🗑", "Delete", new { id = Model.ToList<WebApplication2.Models.Evento>().IndexOf(item) })
-        </td>
-    </tr>
-}
-
+<table id="tabelaEvento" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Local</th>
+            <th>Data</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var evento in Model)
+        {
+            <tr>
+                <td>@evento.Local</td>
+                <td>@evento.Data.ToShortDateString()</td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = evento.Id }, new { @class = "btn btn-warning btn-sm" })
+                    <button class="btn btn-danger btn-sm" onclick="excluirEvento(@evento.Id)">Excluir</button>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
-<a href="@Url.Action("GerarPdf", "Evento")" class="btn btn-dark" target="_blank">
-    📄 Baixar PDF
-</a>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
+
+    <script>
+        $(document).ready(function () {
+            $('#tabelaEvento').DataTable({
+                language: {
+                    search: "Procurar:",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Nenhum registro encontrado",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Nenhum registro disponível",
+                    infoFiltered: "(filtrado de _MAX_ registros no total)",
+                    paginate: {
+                        first: "Primeiro",
+                        last: "Último",
+                        next: "Próximo",
+                        previous: "Anterior"
+                    }
+                }
+            });
+        });
+
+        function excluirEvento(id) {
+            if (confirm('Deseja realmente excluir este Evento?')) {
+                $.post('@Url.Action("DeleteAjax")', { id: id }, function (data) {
+                    if (data.sucesso) {
+                        location.reload();
+                    } else {
+                        alert("Erro ao excluir evento.");
+                    }
+                });
+            }
+        }
+    </script>
+}
